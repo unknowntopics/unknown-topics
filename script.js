@@ -32,8 +32,13 @@ function doSearch() {
   let found = 0;
 
   searchable.forEach(item => {
-    const text = (item.dataset.search || "").toLowerCase();
-    const match = text.includes(query);
+    
+const text = (item.dataset.search || "").toLowerCase();
+
+const words = query.split(/\s+/).filter(Boolean);
+
+const match = words.every(word => text.includes(word));
+
 
     item.classList.toggle("hidden", !match);
 
