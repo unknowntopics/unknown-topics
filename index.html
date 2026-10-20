@@ -187,5 +187,53 @@
   </footer>
 
   <script src="script.js"></script>
+    <!-- Blogger Auto Fetch Code -->
+  <script>
+    const blogUrl = "https://unknowntopics1.blogspot.com/feeds/posts/default?alt=json&max-results=3";
+
+    fetch(blogUrl)
+      .then(response => response.json())
+      .then(data => {
+        const updateList = document.getElementById('updateList');
+        updateList.innerHTML = ''; // আগের ডেমো লেখাগুলো মুছে ফেলবে
+        
+        const entries = data.feed.entry;
+        if (entries && entries.length > 0) {
+          entries.forEach(entry => {
+            const title = entry.title.$t;
+            let link = "#";
+            for (let i = 0; i < entry.link.length; i++) {
+              if (entry.link[i].rel === 'alternate') {
+                link = entry.link[i].href;
+                break;
+              }
+            }
+            
+            // তারিখ বের করার নিয়ম
+            const pubDate = new Date(entry.published.$t);
+            const dateStr = pubDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase();
+            const yearStr = pubDate.getFullYear();
+
+            // নতুন কার্ড তৈরি করা
+            const article = document.createElement('article');
+            article.className = 'update-item';
+            article.style.cursor = 'pointer';
+            article.onclick = () => window.open(link, '_blank');
+            article.innerHTML = `
+              <span class="date">${dateStr}<br><b>${yearStr}</b></span>
+              <div>
+                <span class="tag">Blog Update</span>
+                <h3>${title}</h3>
+              </div>
+              <span class="arrow" style="color: #ff0000;">→</span>
+            `;
+            
+            updateList.appendChild(article);
+          });
+        }
+      })
+      .catch(error => console.error('Error fetching blog:', error));
+  </script>
+
 </body>
 </html>
