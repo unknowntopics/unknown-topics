@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Details | UNKNOWN TOPICS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">U<span>T</span></span>
+        <span><strong>UNKNOWN TOPICS</strong><small>Online Form Fill Up</small></span>
+      </a>
+      <a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">← Back to Home</a>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 50px 20px; min-height: 60vh;">
+    <span id="post-tag" class="tag" style="background: #e0f7fa; color: #00838f; padding: 5px 10px; border-radius: 5px; font-weight: bold;">Loading...</span>
+    <h1 id="post-title" style="margin-top: 15px; margin-bottom: 10px; font-size: 2em; color: #081426;">Loading Title...</h1>
+    <p id="post-desc" style="margin-bottom: 30px; font-size: 1.1em; color: #555;">Loading description...</p>
+
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+      <h3 style="margin-bottom: 15px; color: #d32f2f;">প্রয়োজনীয় ডকুমেন্টস:</h3>
+      <ul id="post-docs" style="line-height: 1.8; margin-left: 20px; color: #333;">
+        <!-- ডকুমেন্টস অটোমেটিক এখানে চলে আসবে -->
+      </ul>
+    </div>
+
+    <div style="margin-top: 30px;">
+      <a id="post-video" href="#" class="btn primary" target="_blank" style="background: #ff0000; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Watch Video on YouTube ↗</a>
+    </div>
+  </main>
+
+  <script src="data.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+
+    if (postId && postData[postId]) {
+        const post = postData[postId];
+        document.getElementById('post-title').innerText = post.title;
+        document.getElementById('post-tag').innerText = post.tag;
+        document.getElementById('post-desc').innerText = post.description;
+        document.getElementById('post-video').href = post.videoLink;
+        
+        const docsList = document.getElementById('post-docs');
+        post.documents.forEach(doc => {
+            let li = document.createElement('li');
+            li.innerText = doc;
+            docsList.appendChild(li);
+        });
+    } else {
+        document.getElementById('post-title').innerText = "Post Not Found";
+        document.getElementById('post-desc').innerText = "দুঃখিত, আপনি যে পোস্টটি খুঁজছেন তা পাওয়া যায়নি।";
+    }
+  </script>
+</body>
+</html>
